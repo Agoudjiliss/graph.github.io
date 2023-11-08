@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .graph-container {
+            width: 1000px;
+            height: 700px;
+            border: 1px solid #111111;
+            margin: 10px;
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Quadratic Function Graph</h1>
+    
+    <label for="a">Coefficient a:</label>
+    <input type="number" id="a" step="0.1">
+    <br>
+    <label for="b">Coefficient b:</label>
+    <input type="number" id="b" step="0.1">
+    <br>
+    <label for="c">Coefficient c:</label>
+    <input type="number" id="c" step="0.1">
+    <br>
+    
+    <div class="graph-container">
+        <canvas id="graph" width="1000" height="700"></canvas>
+    </div>
+    
+    <script>
+        const canvas = document.getElementById('graph');
+        const ctx = canvas.getContext('2d');
+
+        function updateGraph() {
+            const a = parseFloat(document.getElementById('a').value);
+            const b = parseFloat(document.getElementById('b').value);
+            const c = parseFloat(document.getElementById('c').value);
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw the x-axis
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height / 2);
+            ctx.lineTo(canvas.width, canvas.height / 2);
+            ctx.stroke();
+
+            // Draw the y-axis
+            ctx.beginPath();
+            ctx.moveTo(canvas.width / 2, 0);
+            ctx.lineTo(canvas.width / 2, canvas.height);
+            ctx.stroke();
+
+            // Plot the quadratic function
+            ctx.beginPath();
+            ctx.strokeStyle = 'red';
+
+            for (let x = -10; x <= 10; x += 0.1) {
+                const y = a * x * x + b * x + c;
+                const xCanvas = x * 20 + canvas.width / 2;
+                const yCanvas = canvas.height / 2 - y * 20;
+
+                if (x === -10) {
+                    ctx.moveTo(xCanvas, yCanvas);
+                } else {
+                    ctx.lineTo(xCanvas, yCanvas);
+                }
+            }
+
+            ctx.stroke();
+        }
+        
+        updateGraph();
+        
+        document.getElementById('a').addEventListener('input', updateGraph);
+        document.getElementById('b').addEventListener('input', updateGraph);
+        document.getElementById('c').addEventListener('input', updateGraph);
+    </script>
+</body>
+</html>
